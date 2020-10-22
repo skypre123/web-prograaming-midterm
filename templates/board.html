@@ -16,13 +16,21 @@
             </tr>
         </thead>
         <tbody>
+        {%  for post in posts %}
             <tr>
-                <td>user=User.query.filter_by(name=form.username.data).all()</td>
+                <td>{{ posts.title }}</td>
             </tr>
+            {% endfor %}
+            {%  for user in users %}
+            <tr>
+                <td>{{ users.name }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
     </div>
     <a href="/writing" class="btn btn-default" role="button"> 작성 </a>
     <button type="button" class="btn btn-default pull-right" >삭제</button>
+
 
 {% endblock %}

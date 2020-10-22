@@ -2,6 +2,8 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 {{ wtf.quick_form(form) }}
+    <p>제목: {{ title }}</p>
+    <p>작성자: {{ name }}</p>
 
     <a href="/board_page" class="btn btn-default" role="button"> 게시판 </a>
 {% endblock %}

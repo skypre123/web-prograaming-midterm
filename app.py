@@ -17,10 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI']=\
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 
-@app.route('/user/<name>')
-def user_bootstrap(name):
-    return render_template('user.html', name=name)
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -43,12 +39,11 @@ def writingform():
         db.session.add(user)
         db.session.add(title)
         db.session.add(body)
+        db.session.commit()
 
         session['title']=form.title.data
         session['name']=form.name.data
         session['body']=form.body.data
-        db.session.commit()
-
         form.name.data = ''
         return redirect(url_for('boardform'))
     return render_template('writing.html', form=form, title=session.get('title'), name=session.get('name'), body=session.get('body'))
@@ -57,21 +52,24 @@ def writingform():
 class BoardForm(FlaskForm):
     write=SubmitField('작성')
 
-@app.route('/board', methods=['GET', 'POST'])
+@app.route('/board', methods=['GET','POST'])
 def boardform():
     form=BoardForm()
-    if form.validate_on_submit():
-        session['write']=form.write.data
-        return redirect(url_for('writingform'))
+    #post=Post(request.form['title'])
+    #if form.validate_on_submit():
+    #    session['write']=form.write.data
+    #    return redirect(url_for('writingform'))
     return render_template('board.html', form=form, write=session.get('write'))
 
 
 class PostForm(FlaskForm):
     board=SubmitField('게시판')
 
-@app.route('/post')
+@app.route('/post', methods=['GET', 'POST'])
 def postform():
     form=PostForm()
+    #posts=Post.query.filter_by(user_id=form.name.data).all()
+
     return render_template('post.html', form=form)
 
 
