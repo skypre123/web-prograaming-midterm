@@ -6,8 +6,9 @@
         <h1>Board</h1>
     </div>
 {{ wtf.quick_form(form) }}
-    <div>
-    <table class="table table-bordered table-hover">
+
+    <div class="container">
+    <table class="table table-bordered table-hover text-center">
         <thead>
             <tr>
                 <th scope="col">제목</th>
@@ -16,13 +17,12 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">ㅁㅁㄴㅇ</th>
-                <th scope="row">sky</th>
+                <td>user=User.query.filter_by(name=form.username.data).all()</td>
             </tr>
         </tbody>
     </table>
     </div>
-    <a href="/writing_page" class="btn btn-default" role="button"> 작성 </a>
+    <a href="/writing" class="btn btn-default" role="button"> 작성 </a>
     <button type="button" class="btn btn-default pull-right" >삭제</button>
 
 {% endblock %}

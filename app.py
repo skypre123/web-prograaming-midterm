@@ -33,7 +33,7 @@ class WritingForm(FlaskForm):
     submit=SubmitField('게시')
     cancel=SubmitField('취소')
 
-@app.route('/writing_page', methods=['GET', 'POST'])
+@app.route('/writing', methods=['GET', 'POST'])
 def writingform():
     form=WritingForm()
     if form.validate_on_submit():
@@ -43,11 +43,12 @@ def writingform():
         db.session.add(user)
         db.session.add(title)
         db.session.add(body)
-        db.session.commit()
 
         session['title']=form.title.data
         session['name']=form.name.data
         session['body']=form.body.data
+        db.session.commit()
+
         form.name.data = ''
         return redirect(url_for('boardform'))
     return render_template('writing.html', form=form, title=session.get('title'), name=session.get('name'), body=session.get('body'))
@@ -56,7 +57,7 @@ def writingform():
 class BoardForm(FlaskForm):
     write=SubmitField('작성')
 
-@app.route('/board_page', methods=['GET', 'POST'])
+@app.route('/board', methods=['GET', 'POST'])
 def boardform():
     form=BoardForm()
     if form.validate_on_submit():
@@ -68,7 +69,7 @@ def boardform():
 class PostForm(FlaskForm):
     board=SubmitField('게시판')
 
-@app.route('/post_page')
+@app.route('/post')
 def postform():
     form=PostForm()
     return render_template('post.html', form=form)
@@ -78,14 +79,10 @@ class AuthorForm(FlaskForm):
     board=SubmitField('게시판')
     userdelete=SubmitField('작성자 삭제')
 
-@app.route('/author_page')
+@app.route('/author')
 def authorform():
     form=AuthorForm()
     return render_template('author.html', form=form)
-
-
-
-
 
 
 
@@ -108,7 +105,7 @@ class Post(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(64), unique=True,)
-    body=db.Column(db.String)
+    body=db.Column(db.Text)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
