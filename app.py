@@ -27,9 +27,9 @@ def page_not_found(e):
 
 
 class WritingForm(FlaskForm):
-    name=StringField('제목', validators=[DataRequired()])
-    writer=StringField('작성자', validators=[DataRequired()])
-    content=TextAreaField('내용', validators=[DataRequired()])
+    title=StringField('제목', validators=[DataRequired()])
+    name=StringField('작성자', validators=[DataRequired()])
+    body=TextAreaField('내용', validators=[DataRequired()])
     submit=SubmitField('게시')
     cancel=SubmitField('취소')
 
@@ -37,20 +37,32 @@ class WritingForm(FlaskForm):
 def writingform():
     form=WritingForm()
     if form.validate_on_submit():
+        user=User(name=form.name.data)
+        title=Post(title=form.title.data)
+        body=Post(body=form.body.data)
+        db.session.add(user)
+        db.session.add(title)
+        db.session.add(body)
+        db.session.commit()
+
+        session['title']=form.title.data
         session['name']=form.name.data
-        session['writier']=form.writer.data
-        session['content']=form.content.data
+        session['body']=form.body.data
+        form.name.data = ''
         return redirect(url_for('boardform'))
-    return render_template('writing.html', form=form, name=session.get('name'), writer=session.get('writer'), content=session.get('content'))
+    return render_template('writing.html', form=form, title=session.get('title'), name=session.get('name'), body=session.get('body'))
 
 
 class BoardForm(FlaskForm):
     write=SubmitField('작성')
 
-@app.route('/board_page')
+@app.route('/board_page', methods=['GET', 'POST'])
 def boardform():
     form=BoardForm()
-    return render_template('board.html', form=form)
+    if form.validate_on_submit():
+        session['write']=form.write.data
+        return redirect(url_for('writingform'))
+    return render_template('board.html', form=form, write=session.get('write'))
 
 
 class PostForm(FlaskForm):

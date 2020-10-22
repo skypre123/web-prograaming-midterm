@@ -1,16 +1,28 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-<html>
-    <head>
-        <style>
-            title {text-align: center;}
-        </style>
-    </head>
-    <body>
-        <div class="main">
-            <div class="title">
-                Board
-            </div>
-        </div>
-    </body>
-</html>
+
+{% block page_content %}
+    <div class="page-header text-center">
+        <h1>Board</h1>
+    </div>
+{{ wtf.quick_form(form) }}
+    <div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">ㅁㅁㄴㅇ</th>
+                <th scope="row">sky</th>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <a href="/writing_page" class="btn btn-default" role="button"> 작성 </a>
+    <button type="button" class="btn btn-default pull-right" >삭제</button>
+
+{% endblock %}

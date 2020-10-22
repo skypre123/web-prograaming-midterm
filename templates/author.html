@@ -2,4 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 {{ wtf.quick_form(form) }}
+
+    <a href="/board_page" class="btn btn-default" role="button"> 게시판 </a>
+    <a class="btn btn-default" role="button"> 작성자삭제 </a>
 {% endblock %}

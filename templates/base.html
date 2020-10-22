@@ -1,8 +1,23 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}Flasky{% endblock %}
+{% block title %}Board{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle">
+            </button>
+            <a class="navbar-brand" href="/board_page">Board</a>
+            <a class="navbar-brand" href="/post_page">Post</a>
+            <a class="navbar-brand" href="/author_page">Author</a>
+            <a class="navbar-brand" href="/writing_page">Writing</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 
 {% block content %}
-<div class="container">
+    <div class="container">
     {% block page_content %} {% endblock %}
-</div>
+    </div>
 {% endblock %}
